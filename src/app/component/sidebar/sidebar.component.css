@@ -1,0 +1,51 @@
+
+.custom-icon-button .pi-bars {
+    font-size: 1.5rem;      
+    color: #000000;          
+    animation: pulse 2s infinite;
+    transition: transform 0.3s ease;
+}
+
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1); 
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+
+.custom-icon-button:hover .pi-bars {
+    color: #333333;          
+    transform: scale(1.1);   
+}
+.custom-icon-button {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 10001; /* Para asegurarse de que esté encima del contenido */
+    background-color: #343a40;
+    color: white;
+    border: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    transition: background-color 0.3s ease;
+  }
+  
+  .custom-icon-button:hover {
+    background-color: #495057;
+  }
+  
+  .custom-icon-button .pi {
+    transition: transform 0.3s ease;
+  }
+  
+  /* Agrega rotación cuando el sidebar está visible */
+  .sidebar-visible .custom-icon-button .pi {
+    transform: rotate(90deg);
+  }
+  

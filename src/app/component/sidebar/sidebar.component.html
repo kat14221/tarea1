@@ -1,0 +1,49 @@
+<p-sidebar [(visible)]="sidebarVisible" [baseZIndex]="10000" styleClass="bg-gray-800 text-white">
+    <ng-template pTemplate="headless">
+        <div class="flex flex-col h-full">
+            
+            <div class="flex items-center justify-between px-4 py-3">
+                <span class="flex items-center gap-2 text-2xl font-bold">
+                    <i class="pi pi-compass text-primary"></i>
+                    <span class="text-primary">APP</span>
+                </span>
+                <p-button icon="pi pi-times" class="p-button-rounded p-button-text text-white" (onClick)="sidebarVisible = false"></p-button>
+            </div>
+
+            <div class="flex-grow overflow-y-auto mt-4">
+                <ul class="list-none p-0">
+                  
+                    <li>
+                        <a class="nav-link" routerLink="/home" (click)="sidebarVisible = false">
+                            <i class="bi bi-house-door me-2"></i> Home
+                        </a>
+                    </li>
+
+                   
+                    <li>
+                        <a class="nav-link" routerLink="/categoria" (click)="sidebarVisible = false">
+                            <i class="bi bi-archive me-2"></i> Categoría
+                        </a>
+                    </li>
+
+                  
+                    <li>
+                        <a class="nav-link" routerLink="/seccion" (click)="sidebarVisible = false">
+                            <i class="bi bi-box me-2"></i> Sección
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+           
+            <div class="mt-auto px-4 py-3 border-t border-gray-700">
+                <a class="flex items-center gap-2 cursor-pointer">
+                    <p-avatar image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png" shape="circle"></p-avatar>
+                    <span class="text-white font-semibold">Usuario</span>
+                </a>
+            </div>
+        </div>
+    </ng-template>
+</p-sidebar>
+
+<p-button (onClick)="sidebarVisible = true" icon="pi pi-arrow-right" />

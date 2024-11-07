@@ -1,0 +1,74 @@
+<app-sidebar></app-sidebar>
+<div class="container mx-auto p-6">
+    <h2 class="text-3xl font-bold text-blue-600 mb-6">Gestión de Categorías</h2>
+
+<button 
+class="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition mb-4"
+(click)="openAddDialog()">
+Agregar Nueva Categoría
+</button>
+
+<div class="bg-blue-100 border border-blue-300 rounded-lg shadow">
+<div class="bg-blue-600 text-white p-4 rounded-t-lg">
+    <h3 class="text-xl font-semibold">Listado de Categorías</h3>
+</div>
+<div class="overflow-x-auto">
+    <table class="min-w-full bg-white">
+        <thead>
+            <tr class="bg-blue-200 text-blue-700">
+                <th class="py-3 px-6 text-left font-semibold">ID</th>
+                <th class="py-3 px-6 text-left font-semibold">Nombre</th>
+                <th class="py-3 px-6 text-left font-semibold">Estado</th>
+                <th class="py-3 px-6 text-left font-semibold">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let cat of categorias" class="border-b hover:bg-blue-50">
+                <td class="py-3 px-6">{{ cat.id }}</td>
+                <td class="py-3 px-6">{{ cat.nombre }}</td>
+                <td class="py-3 px-6">
+                    <span class="inline-block px-3 py-1 text-sm font-semibold rounded-full" 
+                          [ngClass]="{'bg-green-200 text-green-800': cat.estado === '1', 'bg-gray-300 text-gray-800': cat.estado === '0'}">
+                        {{ cat.estado === '1' ? 'Activo' : 'Inactivo' }}
+                    </span>
+                </td>
+                <td class="py-3 px-6">
+                    <button class="text-blue-600 hover:underline mr-4" (click)="openEditDialog(cat)">
+                        <i class="pi pi-pencil"></i> Editar
+                    </button>
+                    <button class="text-red-600 hover:underline" (click)="deleteCategoria(cat.id)">
+                        <i class="pi pi-trash"></i> Eliminar
+                    </button>
+                </td>
+            </tr>
+            <tr *ngIf="categorias.length === 0">
+                <td colspan="4" class="py-3 px-6 text-center text-gray-500">No hay categorías disponibles.</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+</div>
+
+<p-sidebar [(visible)]="visible" [baseZIndex]="10000" styleClass="w-1/3 bg-blue-100">
+<div class="p-4">
+    <h3 class="text-2xl font-bold text-blue-600 mb-4">
+        {{ selectedCategoria ? 'Editar Categoría' : 'Agregar Categoría' }}
+    </h3>
+    <form (ngSubmit)="selectedCategoria ? updateCategoria() : addCategoria()" #categoriaForm="ngForm">
+        <div class="mb-4">
+            <label for="nombre" class="block text-gray-700 font-semibold mb-2">Nombre de la Categoría</label>
+            <input type="text" id="nombre" class="w-full p-2 border border-gray-300 rounded"
+                [(ngModel)]="categoriaEdit.nombre" name="nombre" required>
+        </div>
+        <div class="mb-4">
+            <label for="estado" class="block text-gray-700 font-semibold mb-2">Estado</label>
+            <select id="estado" class="w-full p-2 border border-gray-300 rounded"
+                [(ngModel)]="categoriaEdit.estado" name="estado">
+                <option value="1">Activo</option>
+                <option value="0">Inactivo</option>
+            </select>
+        </div>
+        <button type="submit" class="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition">
+            {{ selectedCategoria ? 'Actualizar' : 'Agregar' }}
+        </button>
+ 

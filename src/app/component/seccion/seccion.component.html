@@ -1,0 +1,95 @@
+<app-sidebar></app-sidebar>
+<div class="p-4 bg-gray-100 min-h-screen">
+
+    <h2 class="text-2xl font-bold text-blue-600 mb-6">Gestión de Secciones</h2>
+
+    <button
+        class="bg-purple-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-all duration-200 shadow mb-6"
+        (click)="showDialogCreate()">
+        + Agregar Nueva Sección
+    </button>
+    <div class="bg-purple-100 border border-blue-300 rounded-lg shadow">
+        <div class="bg-blue-600 text-white p-4 rounded-t-lg">
+            <h3 class="text-xl font-semibold">Listado de Seciones</h3>
+        </div>
+        <div class="overflow-x-auto">
+            <table class="min-w-full bg-white">
+                <p-table [value]="secciones" class="p-datatable p-shadow-3 rounded-lg overflow-hidden">
+                    <ng-template pTemplate="header">
+                        <tr class="bg-blue-600 text-white">
+                            <th class="px-4 py-2">ID</th>
+                            <th class="px-4 py-2">Nombre</th>
+                            <th class="px-4 py-2">Categoría</th>
+                            <th class="px-4 py-2">Estado</th>
+                            <th class="px-4 py-2">Acciones</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-seccion>
+                        <tr class="bg-white hover:bg-gray-50 transition duration-150">
+                            <td class="px-4 py-2 text-center">{{ seccion.id }}</td>
+                            <td class="px-4 py-2">{{ seccion.nombre }}</td>
+                            <td class="px-4 py-2">{{ seccion.categoria?.nombre || 'Sin Categoría' }}</td>
+                            <td class="px-4 py-2">
+                                <span class="badge text-sm font-semibold px-2 py-1 rounded-full" [ngClass]="{
+                            'bg-green-100 text-green-800': seccion.estado === '1', 
+                            'bg-gray-200 text-gray-800': seccion.estado === '0'
+                        }">
+                                    {{ seccion.estado === '1' ? 'Activo' : 'Inactivo' }}
+                                </span>
+                            </td>
+                            <td class="px-4 py-2 flex gap-2 justify-center">
+                                <button class="p-button p-button-rounded p-button-primary p-button-text"
+                                    (click)="showDialogEdit(seccion.id)">
+                                    <i class="pi pi-pencil"></i> Editar
+                                </button>
+                                <button class="p-button p-button-rounded p-button-danger p-button-text"
+                                    (click)="deleteSeccion(seccion.id)">
+                                    <i class="pi pi-trash"></i> Eliminar
+                                </button>
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+
+                <p-dialog [(visible)]="visible" [header]="titulo" [modal]="true" [closable]="true"
+                    [style]="{ width: '400px' }" class="rounded-lg shadow-lg">
+                    <form (ngSubmit)="opc === 'Agregar' ? addSeccion() : updateSeccion()">
+                        <div class="p-fluid">
+                            <div class="p-field mb-4">
+                                <label for="nombre" class="text-gray-700 font-medium">Nombre</label>
+                                <input id="nombre" type="text" pInputText [(ngModel)]="seccion.nombre" name="nombre"
+                                    required class="rounded-md border-gray-300" />
+                            </div>
+                            <div class="p-field mb-4">
+                                <label for="categoria" class="text-gray-700 font-medium">Categoría</label>
+                                <p-dropdown [options]="categoriaOptions" [(ngModel)]="seccion.categoria"
+                                    optionLabel="nombre" name="categoria" placeholder="Seleccione una categoría"
+                                    class="w-full rounded-md border-gray-300">
+                                </p-dropdown>
+                            </div>
+                            <div class="p-field mb-4">
+                                <label for="estado" class="text-gray-700 font-medium">Estado</label>
+                                <p-dropdown [options]="estados" [(ngModel)]="seccion.estado" optionLabel="label"
+                                    optionValue="value" name="estado" placeholder="Seleccione un estado"
+                                    class="w-full rounded-md border-gray-300">
+                                </p-dropdown>
+                            </div>
+                        </div>
+
+                        <div class="p-dialog-footer flex justify-end gap-2">
+                            <button type="submit" pButton label="{{ opc }}"
+                                class="p-button-primary px-5 py-2 rounded-md"></button>
+                            <button type="button" pButton label="Cancelar"
+                                class="p-button-secondary px-5 py-2 rounded-md" (click)="visible = false"></button>
+                        </div>
+                    </form>
+                </p-dialog>
+
+                <p-toast></p-toast>
+
+                <p-confirmDialog header="Confirmación" icon="pi pi-exclamation-triangle"
+                    class="text-center"></p-confirmDialog>
+        
+            </table>        </div>
+    </div>
+</div>
